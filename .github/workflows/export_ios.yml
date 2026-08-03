@@ -1,0 +1,65 @@
+name: Export and Build iOS App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite ejecutar el flujo manualmente desde GitHub
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Configurar la versión de Godot
+      # Ajusta la versión según la que estés usando en tu proyecto
+      - name: Setup Godot Engine
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.7.1 # o 3.5.3 si trabajas en Godot 3
+          use-dotnet: false
+
+      # 2. Descargar las plantillas de exportación (Export Templates)
+      - name: Download Godot Export Templates
+        run: |
+          GODOT_VERSION="4.7.1.stable"
+          mkdir -p ~/.local/share/godot/export_templates
+          mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}
+          curl -LO "https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION%.*}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          unzip "Godot_v${GODOT_VERSION}_export_templates.tpz" -d ~/.local/share/godot/templates/${GODOT_VERSION}
+          mv ~/.local/share/godot/templates/${GODOT_VERSION}/templates/* ~/.local/share/godot/templates/${GODOT_VERSION}/
+
+      # 3. Exportar el proyecto de Godot a un proyecto de Xcode
+      - name: Export Godot Project to Xcode
+        run: |
+          mkdir -p build/ios
+          godot --headless --export-release "iOS" build/ios/YourGame.xcodeproj
+
+      # 4. Configurar Xcode y seleccionar el SDK correcto
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      # 5. Compilar el proyecto exportado usando xcodebuild
+      - name: Build iOS App with Xcode
+        run: |
+          cd build/ios
+          xcodebuild build \
+            -project YourGame.xcodeproj \
+            -scheme YourGame \
+            -sdk iphoneos \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      # 6. Guardar el artefacto resultante en GitHub
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: build/ios/

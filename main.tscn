@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://bkbv2sho7myif"]
+
+[ext_resource type="Texture2D" uid="uid://d2p83a7xpo6ql" path="res://sprites/bg.png" id="1_h2yge"]
+[ext_resource type="Texture2D" uid="uid://cd2amd8482i4s" path="res://sprites/baldi/happy.png" id="2_5vw27"]
+[ext_resource type="Script" uid="uid://ccw0n5r1xraoa" path="res://baldi.gd" id="2_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cgumnjfula6p8" path="res://sprites/baldi/meh.png" id="3_kek77"]
+[ext_resource type="Texture2D" uid="uid://dynmg4kb507v5" path="res://sprites/baldi/sad.png" id="4_4c57u"]
+[ext_resource type="Texture2D" uid="uid://dd1tfrb1of5s" path="res://sprites/baldi/angry.png" id="5_efxa6"]
+[ext_resource type="FontFile" uid="uid://c5yxw6vjvc48w" path="res://sprites/font.ttf" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://daec4aekbk8je" path="res://sprites/baldi/most angry.png" id="6_dg77c"]
+[ext_resource type="AudioStream" uid="uid://nyln0q8sl5wl" path="res://sounds/baldi/start.wav" id="8_vivmo"]
+[ext_resource type="AudioStream" uid="uid://dj42hlxjst51" path="res://sounds/baldi/happy1.wav" id="9_2cqfq"]
+[ext_resource type="AudioStream" uid="uid://bcc4fq7svts17" path="res://sounds/baldi/happy2.wav" id="10_yaehf"]
+[ext_resource type="AudioStream" uid="uid://b5bfgijhhwuvf" path="res://sounds/baldi/happy3.wav" id="11_074og"]
+[ext_resource type="AudioStream" uid="uid://ix680bft0nwl" path="res://sounds/baldi/happy4.wav" id="12_cegan"]
+[ext_resource type="AudioStream" uid="uid://vbfeki6fe8l3" path="res://sounds/baldi/happy5.wav" id="13_82xsv"]
+[ext_resource type="AudioStream" uid="uid://cwat1t58jibjv" path="res://sounds/baldi/happy6.wav" id="14_getpj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cerl0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5vw27")
+}],
+"loop": 1,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_kek77")
+}],
+"loop": 1,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_4c57u")
+}],
+"loop": 1,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_efxa6")
+}],
+"loop": 1,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_dg77c")
+}],
+"loop": 1,
+"name": &"4",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=766223826]
+metadata/_edit_horizontal_guides_ = [-52.0]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=541515040]
+position = Vector2(132.00002, 229.99997)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_h2yge")
+
+[node name="Baldi" type="AnimatedSprite2D" parent="." unique_id=240108169 node_paths=PackedStringArray("gameOver", "mathText", "scoreText", "answerText", "sound")]
+position = Vector2(117.00001, 256)
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_cerl0")
+animation = &"0"
+autoplay = "0"
+script = ExtResource("2_lquwl")
+gameOver = NodePath("../GameOver")
+mathText = NodePath("../Problem")
+scoreText = NodePath("../Score")
+answerText = NodePath("../Answer")
+sound = NodePath("../Sound")
+startSound = ExtResource("8_vivmo")
+happySounds = Array[AudioStreamWAV]([ExtResource("9_2cqfq"), ExtResource("10_yaehf"), ExtResource("11_074og"), ExtResource("12_cegan"), ExtResource("13_82xsv"), ExtResource("14_getpj")])
+
+[node name="Problem" type="Label" parent="." unique_id=1878598569]
+offset_top = 8.0
+offset_right = 270.0
+offset_bottom = 98.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 64
+text = "9 + 10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="." unique_id=1811251107]
+offset_top = 72.0
+offset_right = 270.0
+offset_bottom = 118.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 32
+text = "score: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Answer" type="LineEdit" parent="." unique_id=1510959319]
+offset_top = 361.0
+offset_right = 270.0
+offset_bottom = 437.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 48
+placeholder_text = "write here"
+keep_editing_on_text_submit = true
+virtual_keyboard_type = 2
+caret_blink = true
+caret_force_displayed = true
+
+[node name="GameOver" type="ColorRect" parent="." unique_id=302865889]
+visible = false
+offset_right = 270.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="SecondBackground" type="ColorRect" parent="GameOver" unique_id=1293260428]
+layout_mode = 0
+offset_left = -114.0
+offset_top = -76.0
+offset_right = 366.0
+offset_bottom = 564.0
+color = Color(0, 0, 0, 1)
+
+[node name="Text" type="Label" parent="GameOver" unique_id=1069508824]
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 280.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 86
+text = "GAME
+OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Restart" type="Button" parent="GameOver" unique_id=165442211]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 350.0
+offset_right = 252.0
+offset_bottom = 441.0
+theme_override_colors/font_color = Color(0.124131076, 0.38735166, 0.6358587, 1)
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 48
+text = "RESTART"
+
+[node name="Sound" type="AudioStreamPlayer" parent="." unique_id=1016891320]
+
+[connection signal="text_submitted" from="Answer" to="Baldi" method="_on_answer_submitted"]
+[connection signal="pressed" from="GameOver/Restart" to="Baldi" method="_ready"]
