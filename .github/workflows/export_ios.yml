@@ -22,15 +22,20 @@ jobs:
           version: 4.7.1 # o 3.5.3 si trabajas en Godot 3
           use-dotnet: false
 
-      # 2. Descargar las plantillas de exportación (Export Templates)
+      # 2. Descargar las plantillas de exportación desde el mirror de GitHub
       - name: Download Godot Export Templates
         run: |
-          GODOT_VERSION="4.7.1.stable"
-          mkdir -p ~/.local/share/godot/export_templates
+          GODOT_VERSION="4.2.2.stable"
           mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}
-          curl -LO "https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION%.*}/Godot_v${GODOT_VERSION}_export_templates.tpz"
-          unzip "Godot_v${GODOT_VERSION}_export_templates.tpz" -d ~/.local/share/godot/templates/${GODOT_VERSION}
+          
+          # Descargamos desde el mirror oficial de GitHub Releases (mucho más rápido y estable)
+          curl -LO "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          
+          # Extraer y colocar en el directorio de plantillas
+          unzip -q "Godot_v${GODOT_VERSION}_export_templates.tpz" -d ~/.local/share/godot/templates/${GODOT_VERSION}
           mv ~/.local/share/godot/templates/${GODOT_VERSION}/templates/* ~/.local/share/godot/templates/${GODOT_VERSION}/
+          rm -rf ~/.local/share/godot/templates/${GODOT_VERSION}/templates
+          rm "Godot_v${GODOT_VERSION}_export_templates.tpz"
 
       # 3. Exportar el proyecto de Godot a un proyecto de Xcode
       - name: Export Godot Project to Xcode
