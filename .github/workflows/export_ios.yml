@@ -21,23 +21,28 @@ jobs:
         with:
           version: 4.7.1 # o 3.5.3 si trabajas en Godot 3
           use-dotnet: false
-
-      # 2. Descargar las plantillas de exportación desde el mirror de GitHub
+          
+# 2. Descargar e instalar las plantillas de exportación oficiales de Godot 4.3.0
       - name: Download Godot Export Templates
         run: |
-          GODOT_VERSION="4.2.2.stable"
-          mkdir -p ~/.local/share/godot/templates/${GODOT_VERSION}
+          GODOT_VERSION="4.3.0.stable"
           
-          # Descargamos desde el mirror oficial de GitHub Releases (mucho más rápido y estable)
-          curl -LO "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          # Crear directorios según el nuevo estándar de Godot 4
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}
           
-          # Extraer y colocar en el directorio de plantillas
-          unzip -q "Godot_v${GODOT_VERSION}_export_templates.tpz" -d ~/.local/share/godot/templates/${GODOT_VERSION}
-          mv ~/.local/share/godot/templates/${GODOT_VERSION}/templates/* ~/.local/share/godot/templates/${GODOT_VERSION}/
-          rm -rf ~/.local/share/godot/templates/${GODOT_VERSION}/templates
-          rm "Godot_v${GODOT_VERSION}_export_templates.tpz"
+          # Descargar las plantillas desde el mirror oficial de GitHub
+          curl -L -o export_templates.zip "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          
+          # Extraer forzando el nombre a .zip para unzip
+          unzip -q export_templates.zip
+          
+          # Mover los archivos a la ruta esperada por Godot
+          mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}/
+          
+          # Limpiar archivos temporales
+          rm -rf templates export_templates.zip
 
-      # 3. Exportar el proyecto de Godot a un proyecto de Xcode
+      # 3. Exportar el proyecto
       - name: Export Godot Project to Xcode
         run: |
           mkdir -p build/ios
