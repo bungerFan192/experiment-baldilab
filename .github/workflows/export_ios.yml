@@ -23,31 +23,11 @@ jobs:
           use-dotnet: false
           include-templates: true
           
-# 2. Descargar e instalar las plantillas de exportación oficiales de Godot 4.3.0
-      - name: Download Godot Export Templates
-        run: |
-          GODOT_VERSION="4.7.1.stable"
-          
-          # Crear directorios según el nuevo estándar de Godot 4
-          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}
-          
-          # Descargar las plantillas desde el mirror oficial de GitHub
-          curl -L -o export_templates.zip "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
-          
-          # Extraer forzando el nombre a .zip para unzip
-          unzip -q export_templates.zip
-          
-          # Mover los archivos a la ruta esperada por Godot
-          mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}/
-          
-          # Limpiar archivos temporales
-          rm -rf templates export_templates.zip
-
       # 3. Exportar el proyecto
       - name: Export Godot Project to Xcode
         run: |
           mkdir -p build/ios
-          godot --headless --export-release "iOS" build/ios/YourGame.xcodeproj
+          godot --headless --export-release "iOS" build/ios/experiment-baldilab.xcodeproj
 
       # 4. Configurar Xcode y seleccionar el SDK correcto
       - name: Set up Xcode
@@ -60,8 +40,8 @@ jobs:
         run: |
           cd build/ios
           xcodebuild build \
-            -project YourGame.xcodeproj \
-            -scheme YourGame \
+            -project experiment-baldilab.xcodeproj \
+            -scheme experiment-baldilab \
             -sdk iphoneos \
             -configuration Release \
             CODE_SIGN_IDENTITY="" \
