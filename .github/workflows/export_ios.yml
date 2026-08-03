@@ -25,7 +25,7 @@ jobs:
 # 2. Descargar e instalar las plantillas de exportación oficiales de Godot 4.3.0
       - name: Download Godot Export Templates
         run: |
-          GODOT_VERSION="4.3.0.stable"
+          GODOT_VERSION="4.7.1.stable"
           
           # Crear directorios según el nuevo estándar de Godot 4
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}
