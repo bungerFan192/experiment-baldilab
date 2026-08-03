@@ -21,6 +21,7 @@ jobs:
         with:
           version: 4.7.1 # o 3.5.3 si trabajas en Godot 3
           use-dotnet: false
+          include-templates: true
           
 # 2. Descargar e instalar las plantillas de exportación oficiales de Godot 4.3.0
       - name: Download Godot Export Templates
