@@ -20,10 +20,10 @@ config/icon="uid://cgumnjfula6p8"
 
 window/size/viewport_width=270
 window/size/viewport_height=480
-window/size/resizable=false
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_height"
+window/handheld/orientation=1
 
 [dotnet]
 
