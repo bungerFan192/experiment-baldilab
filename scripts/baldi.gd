@@ -1,4 +1,4 @@
-extends AnimatedSprite2D
+extends TextureButton
 
 var anger : int = 0
 var gameTimer : float = 0.0
@@ -13,6 +13,7 @@ var score : int = 0
 @export var sound : AudioStreamPlayer
 @export var startSound : AudioStreamWAV
 @export var happySounds : Array[AudioStreamWAV]
+@export var sprites : Array[CompressedTexture2D]
 
 func playsound(audioStream : AudioStreamWAV):
 	sound.stop()
@@ -47,7 +48,7 @@ func _gameover() -> void:
 func _ready() -> void:
 	scoreText.text = "score: 0"
 	score = 0
-	animation = "0"
+	texture_normal = sprites[anger]
 	anger = 0
 	gameTimer = 0
 	gameOver.hide()
@@ -77,5 +78,8 @@ func _on_answer_submitted(text: String) -> void:
 			score -= (anger+1)*5
 			_anger(1)
 		scoreText.text = "score: " + str(score)
-		if anger < 5: animation = str(anger)
+		if anger < 5: texture_normal = sprites[anger]
 		new_round()
+
+func _on_answer_submitted_2() -> void:
+	_on_answer_submitted(answerText.text)

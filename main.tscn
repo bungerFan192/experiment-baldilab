@@ -18,49 +18,6 @@
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w48qg"]
 load_path = "res://.godot/imported/bg.png-c437bba7722705cd75f308560029cc1e.ctex"
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_cerl0"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_5vw27")
-}],
-"loop": 1,
-"name": &"0",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_kek77")
-}],
-"loop": 1,
-"name": &"1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_4c57u")
-}],
-"loop": 1,
-"name": &"2",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_efxa6")
-}],
-"loop": 1,
-"name": &"3",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_dg77c")
-}],
-"loop": 1,
-"name": &"4",
-"speed": 5.0
-}]
-
 [node name="Control" type="Control" unique_id=1959867098]
 layout_mode = 3
 anchors_preset = 15
@@ -85,12 +42,23 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("CompressedTexture2D_w48qg")
 
-[node name="Baldi" type="AnimatedSprite2D" parent="Background" unique_id=240108169 node_paths=PackedStringArray("gameOver", "mathText", "scoreText", "answerText", "sound")]
-position = Vector2(502, 440)
-scale = Vector2(1.25, 1.25)
-sprite_frames = SubResource("SpriteFrames_cerl0")
-animation = &"0"
-autoplay = "0"
+[node name="Baldi" type="TextureButton" parent="Background" unique_id=1290881490 node_paths=PackedStringArray("gameOver", "mathText", "scoreText", "answerText", "sound")]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.5
+offset_top = -100.0
+offset_right = 82.5
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("2_5vw27")
 script = ExtResource("2_lquwl")
 gameOver = NodePath("../../GameOver")
 mathText = NodePath("../../Problem")
@@ -99,6 +67,7 @@ answerText = NodePath("../../Answer")
 sound = NodePath("../../Sound")
 startSound = ExtResource("8_vivmo")
 happySounds = Array[AudioStreamWAV]([ExtResource("9_2cqfq"), ExtResource("10_yaehf"), ExtResource("11_074og"), ExtResource("12_cegan"), ExtResource("13_82xsv"), ExtResource("14_getpj")])
+sprites = Array[CompressedTexture2D]([ExtResource("2_5vw27"), ExtResource("3_kek77"), ExtResource("4_4c57u"), ExtResource("5_efxa6"), ExtResource("6_dg77c")])
 
 [node name="Problem" type="Label" parent="." unique_id=1878598569]
 layout_mode = 1
@@ -216,5 +185,6 @@ text = "RESTART"
 
 [node name="Sound" type="AudioStreamPlayer" parent="." unique_id=1016891320]
 
+[connection signal="pressed" from="Background/Baldi" to="Background/Baldi" method="_on_answer_submitted_2"]
 [connection signal="text_submitted" from="Answer" to="Background/Baldi" method="_on_answer_submitted"]
 [connection signal="pressed" from="GameOver/Restart" to="Background/Baldi" method="_ready"]
