@@ -43,6 +43,7 @@ func _gameover() -> void:
 	var loop = 50
 	for index in range(0, loop): tw.tween_property(gameOver, "position", position-(Vector2(270, 480)/2)+random_shake(2*(loop-index)), 0.025)
 	gameOver.position = Vector2(270, 480)
+
 func _ready() -> void:
 	scoreText.text = "score: 0"
 	score = 0
