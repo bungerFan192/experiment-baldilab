@@ -44,9 +44,9 @@ jobs:
             -scheme experiment-baldilab \
             -sdk iphoneos \
             -configuration Release \
-            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGN_IDENTITY=""
 
       # 6. Guardar el artefacto resultante en GitHub
       - name: Upload Build Artifact
