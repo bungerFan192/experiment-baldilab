@@ -47,10 +47,38 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY=""
+            - name: Build iOS App with Xcode
+        run: |
+          cd build/ios
+          xcodebuild build \
+            -project experiment-baldilab.xcodeproj \
+            -scheme experiment-baldilab \
+            -sdk iphoneos \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      # 5b. Empaquetar la app compilada en un archivo .ipa
+      - name: Package App into .ipa
+        run: |
+          cd build/ios
+          # Buscar la app compilada en la carpeta de Xcode DerivedData
+          BUILD_APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "experiment-baldilab.app" | head -n 1)
+          
+          # Crear la estructura que requiere iOS
+          mkdir -p Payload
+          cp -r "$BUILD_APP_PATH" Payload/
+          
+          # Copiar el archivo .pck de Godot dentro del paquete .app
+          cp experiment-baldilab.pck Payload/experiment-baldilab.app/
+          
+          # Comprimir la carpeta Payload en un archivo .ipa
+          zip -r experiment-baldilab.ipa Payload
 
       # 6. Guardar el artefacto resultante en GitHub
-      - name: Upload Build Artifact
+     - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-build
-          path: build/ios/
+          name: experiment-baldilab-ipa
+          path: build/ios/experiment-baldilab.ipa
