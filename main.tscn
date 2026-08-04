@@ -119,7 +119,6 @@ theme_override_fonts/font = ExtResource("6_7mycd")
 theme_override_font_sizes/font_size = 48
 placeholder_text = "write here"
 keep_editing_on_text_submit = true
-virtual_keyboard_type = 2
 caret_blink = true
 caret_force_displayed = true
 
